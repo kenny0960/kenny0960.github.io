@@ -3,17 +3,17 @@
       <div class="sidebar">
         <ul>
           <template v-for="item in sidebarItems" :key="item.key">
-            <li @click="toggleChildren(item)">
+            <li @click="toggleChildren(item)" :class="{ 'selected': item.selected }">
               {{ item.text }}
             </li>
             <ul v-if="item.showChildren">
               <template v-for="child in item.children" :key="child.key">
-                <li @click="toggleChildren(child)">
+                <li @click="toggleChildren(child)" :class="{ 'selected': child.selected }">
                   {{ child.text }}
                 </li>
                 <ul v-if="child.showChildren">
                   <template v-for="subChild in child.children" :key="subChild.key">
-                    <li @click="toggleChildren(subChild)">
+                    <li @click="toggleChildren(subChild)" :class="{ 'selected': subChild.selected }">
                       {{ subChild.text }}
                     </li>
                   </template>
@@ -33,6 +33,7 @@ interface SidebarItem {
   key: string;
   text: string;
   showChildren: boolean;
+  selected: boolean;
   children?: SidebarItem[];
 }
 
@@ -157,6 +158,7 @@ const sidebarItems = ref([
 
 function toggleChildren(item: SidebarItem) {
   item.showChildren = ! item.showChildren;
+  item.selected = true;
 };
 </script>
 
@@ -179,6 +181,10 @@ function toggleChildren(item: SidebarItem) {
 
       li {
         padding: 5px;
+
+        &.selected {
+          color: yellow;
+        }
       }
     }
   }
