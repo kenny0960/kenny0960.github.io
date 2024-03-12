@@ -27,7 +27,7 @@ onUnmounted(() => {
 });
 
 const startBallAnimation = () => {
-  ballAnimationInterval = setInterval(() => {
+  ballAnimationInterval = window.setInterval(() => {
     ballPosition.value.x += 5;
 
     if (ballPosition.value.x > window.outerWidth) {
