@@ -1,5 +1,5 @@
 <template>
-  <button @click="toggleSidebar">
+  <button class="menuButton" @click="toggleSidebar">
     <IconMenu />
   </button>
 </template>

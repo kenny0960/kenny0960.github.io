@@ -7,6 +7,10 @@ export const useSidebarStore = defineStore('sidebar', () => {
   const toggleSidebar = (): void => {
     isSideBarVisible.value = ! isSideBarVisible.value;
   };
+
+  const closeSidebar = (): void => {
+    isSideBarVisible.value = false;
+  };
   
-  return { isSideBarVisible, toggleSidebar }
+  return { isSideBarVisible, toggleSidebar, closeSidebar }
 })

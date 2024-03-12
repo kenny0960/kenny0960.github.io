@@ -1,10 +1,19 @@
 <script setup lang="ts">
 import MenuButton from './components/MenuButton.vue';
 import SideBar from './components/SideBar.vue';
+import { useSidebarStore } from './stores/sidebar'
+
+const closeSidebar = (event: Event) => {
+  const targetElement = event.target as Element;
+  const { isSideBarVisible, closeSidebar } = useSidebarStore();
+  if (isSideBarVisible && ! targetElement.closest('.menuButton')) {
+    closeSidebar();
+  }
+};
 </script>
 
 <template>
-  <header>
+  <header @click="closeSidebar">
     <MenuButton />
     <SideBar />
   </header>
