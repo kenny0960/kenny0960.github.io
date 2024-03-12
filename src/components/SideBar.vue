@@ -156,9 +156,47 @@ const sidebarItems = ref([
   }
 ] as SidebarItem[]);
 
-function toggleChildren(item: SidebarItem) {
-  item.showChildren = ! item.showChildren;
-  item.selected = true;
+const getSiblingSidbarItems = (item: SidebarItem): SidebarItem[] => {
+  const parent: SidebarItem | null = getParentSidbarItem(item);
+  if (parent === null) {
+    return sidebarItems.value;
+  }
+  return parent.children as SidebarItem[];
+};
+
+const getParentSidbarItem = (target: SidebarItem, items: SidebarItem[] = sidebarItems.value): SidebarItem | null => {
+  for (const item of items) {
+    // 沒有找到：已經迭代到底部
+    if (item.children === undefined) {
+      return null;
+    }
+    // 回傳父項目
+    if (item.children.includes(target)) {
+      return item;
+    } 
+    const parent: SidebarItem | null = getParentSidbarItem(target, item.children);
+    // 繼續迭代
+    if (parent === null) {
+      continue;
+    }
+    // 回傳父項目
+    return parent;
+  }
+  // 沒有找到
+  return null;
+};
+
+const toggleChildren = (item: SidebarItem) => {
+  const siblingSideBarItems: SidebarItem[] = getSiblingSidbarItems(item);
+  for (const siblingSideBarItem of siblingSideBarItems) {
+    if (siblingSideBarItem === item) {
+      item.showChildren = ! item.showChildren;
+      item.selected = true;      
+    } else {
+      siblingSideBarItem.showChildren = false;
+      siblingSideBarItem.selected = false;
+    }
+  }
 };
 </script>
 
