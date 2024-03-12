@@ -1,6 +1,6 @@
 <template>
   <div class="nine-square">
-   <div v-for="(cell, index) in gridCells" :key="index" class="grid-cell">
+    <div v-for="(cell, index) in gridCells" :key="index" :class="['grid-cell', { 'flashing': flashingCells.includes(index) }]">
      <div class="ball" v-if="ballCells.includes(index)">
       <div class="ball-number">0</div>
     </div>
@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 const gridCells = Array.from({ length: 9 });
+const flashingCells = [2, 4, 8];
 const ballCells = [0, 2, 6, 8];
 </script>
 
@@ -31,6 +32,16 @@ const ballCells = [0, 2, 6, 8];
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .flashing {
+    animation: flash 2s infinite;
+  }
+
+  @keyframes flash {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
   }
 
   .ball {
