@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import MenuButton from './components/MenuButton.vue';
+import SideBar from './components/SideBar.vue';
 </script>
 
 <template>
   <header>
     <MenuButton />
+    <SideBar />
   </header>
 </template>
 

@@ -1,28 +1,28 @@
 <template>
   <teleport to="body">
-      <div class="sidebar">
-        <ul>
-          <template v-for="item in sidebarItems" :key="item.key">
-            <li @click="toggleChildren(item)" :class="{ 'selected': item.selected }">
-              {{ item.text }}
-            </li>
-            <ul v-if="item.showChildren">
-              <template v-for="child in item.children" :key="child.key">
-                <li @click="toggleChildren(child)" :class="{ 'selected': child.selected }">
-                  {{ child.text }}
-                </li>
-                <ul v-if="child.showChildren">
-                  <template v-for="subChild in child.children" :key="subChild.key">
-                    <li @click="toggleChildren(subChild)" :class="{ 'selected': subChild.selected }">
-                      {{ subChild.text }}
-                    </li>
-                  </template>
-                </ul>
-              </template>
-            </ul>
-          </template>
-        </ul>
-      </div>
+    <div v-if="isSidebarOpen" class="sidebar">
+      <ul>
+        <template v-for="item in sidebarItems" :key="item.key">
+          <li @click="toggleChildren(item)" :class="{ 'selected': item.selected }">
+            {{ item.text }}
+          </li>
+          <ul v-if="item.showChildren">
+            <template v-for="child in item.children" :key="child.key">
+              <li @click="toggleChildren(child)" :class="{ 'selected': child.selected }">
+                {{ child.text }}
+              </li>
+              <ul v-if="child.showChildren">
+                <template v-for="subChild in child.children" :key="subChild.key">
+                  <li @click="toggleChildren(subChild)" :class="{ 'selected': subChild.selected }">
+                    {{ subChild.text }}
+                  </li>
+                </template>
+              </ul>
+            </template>
+          </ul>
+        </template>
+      </ul>
+    </div>
     </teleport>
 </template>
 
