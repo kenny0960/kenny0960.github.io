@@ -211,10 +211,11 @@ const toggleChildren = (item: SidebarItem) => {
     background-color: #333;
     color: #fff;
     opacity: 0.9;
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     transition: left 0.3s ease;
+    z-index: 2;
 
     ul {
       padding-left: 10px;
