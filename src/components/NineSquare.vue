@@ -1,7 +1,7 @@
 <template>
   <div class="nine-square">
-    <div v-for="(cell, index) in gridCells" :key="index" :class="['grid-cell', { 'flashing': flashingCells.includes(index) }]">
-     <div class="ball" v-if="ballCells.includes(index)">
+   <div v-for="(cell, index) in gridCells" :key="index" :class="['grid-cell', { 'flashing': flashingCells.includes(index) }]">
+     <div class="ball" v-if="ballCells.includes(index)" :style="{ left: ballPosition.x + 'px', top: ballPosition.y + 'px' }">
       <div class="ball-number">0</div>
     </div>
    </div>
@@ -9,9 +9,32 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue';
+
 const gridCells = Array.from({ length: 9 });
 const flashingCells = [2, 4, 8];
 const ballCells = [0, 2, 6, 8];
+const ballPosition = ref({ x: 0, y: 0 });
+
+let ballAnimationInterval: number;
+
+onMounted(() => {
+  startBallAnimation();
+});
+
+onUnmounted(() => {
+  clearInterval(ballAnimationInterval);
+});
+
+const startBallAnimation = () => {
+  ballAnimationInterval = setInterval(() => {
+    ballPosition.value.x += 5;
+
+    if (ballPosition.value.x > window.outerWidth) {
+      ballPosition.value.x = 0;
+    }
+  }, 50);
+}
 </script>
 
 <style scoped>
@@ -23,7 +46,8 @@ const ballCells = [0, 2, 6, 8];
     justify-content: center;
     align-items: center;
     height: 310px;
-  }
+    overflow: hidden;
+ }
 
   .grid-cell {
     height: 100px;
@@ -32,7 +56,7 @@ const ballCells = [0, 2, 6, 8];
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+ }
 
   .flashing {
     animation: flash 2s infinite;
