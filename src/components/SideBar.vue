@@ -3,19 +3,23 @@
       <div class="sidebar">
         <ul>
           <template v-for="item in sidebarItems" :key="item.key">
-            <li>
+            <li @click="toggleChildren(item)">
               {{ item.text }}
-              <ul>
-                <template v-for="child in item.children" :key="child.key">
-                  <li>{{ child.text }}</li>
-                  <ul>
-                    <template v-for="subChild in (child as SidebarItem).children" :key="subChild.key">
-                      <li>{{ subChild.text }}</li>
-                    </template>
-                  </ul>
-                </template>
-              </ul>
             </li>
+            <ul v-if="item.showChildren">
+              <template v-for="child in item.children" :key="child.key">
+                <li @click="toggleChildren(child)">
+                  {{ child.text }}
+                </li>
+                <ul v-if="child.showChildren">
+                  <template v-for="subChild in child.children" :key="subChild.key">
+                    <li @click="toggleChildren(subChild)">
+                      {{ subChild.text }}
+                    </li>
+                  </template>
+                </ul>
+              </template>
+            </ul>
           </template>
         </ul>
       </div>
@@ -32,6 +36,7 @@ interface SidebarItem {
   children?: SidebarItem[];
 }
 
+const isSidebarOpen = ref(false);
 const sidebarItems = ref([
   {
     key: "64f",
@@ -148,7 +153,11 @@ const sidebarItems = ref([
       }
     ]
   }
-]);
+] as SidebarItem[]);
+
+function toggleChildren(item: SidebarItem) {
+  item.showChildren = ! item.showChildren;
+};
 </script>
 
 <style scoped>
