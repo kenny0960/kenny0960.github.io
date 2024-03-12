@@ -1,6 +1,6 @@
 <template>
   <teleport to="body">
-    <div v-if="isSidebarOpen" class="sidebar">
+    <div v-if="isSideBarVisible" class="sidebar">
       <ul>
         <template v-for="item in sidebarItems" :key="item.key">
           <li @click="toggleChildren(item)" :class="{ 'selected': item.selected }">
@@ -28,6 +28,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { storeToRefs } from "pinia";
+import { useSidebarStore } from '../stores/sidebar';
 
 interface SidebarItem {
   key: string;
@@ -37,7 +39,8 @@ interface SidebarItem {
   children?: SidebarItem[];
 }
 
-const isSidebarOpen = ref(false);
+const { isSideBarVisible } = storeToRefs(useSidebarStore());
+
 const sidebarItems = ref([
   {
     key: "64f",
@@ -173,7 +176,7 @@ const getParentSidbarItem = (target: SidebarItem, items: SidebarItem[] = sidebar
     // 回傳父項目
     if (item.children.includes(target)) {
       return item;
-    } 
+    }
     const parent: SidebarItem | null = getParentSidbarItem(target, item.children);
     // 繼續迭代
     if (parent === null) {
@@ -191,7 +194,7 @@ const toggleChildren = (item: SidebarItem) => {
   for (const siblingSideBarItem of siblingSideBarItems) {
     if (siblingSideBarItem === item) {
       item.showChildren = ! item.showChildren;
-      item.selected = true;      
+      item.selected = true;
     } else {
       siblingSideBarItem.showChildren = false;
       siblingSideBarItem.selected = false;
