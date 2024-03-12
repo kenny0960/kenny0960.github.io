@@ -22,6 +22,7 @@ const closeSidebar = (event: Event) => {
 <style scoped>
 @media (min-width: 390px) {
   header {
+    padding: 1rem;
     text-align: right;
   }
 }
